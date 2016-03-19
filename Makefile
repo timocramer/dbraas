@@ -1,6 +1,6 @@
 MAKEFLAGS += -r
 
-CFLAGS = -O2 -Wall -Wextra -Wshadow -Wstrict-overflow -std=c11 -D_POSIX_C_SOURCE=200809L -Wpedantic -flto
+CFLAGS = -O2 -flto -Wall -Wextra -Wshadow -Wstrict-overflow -std=c11 -D_POSIX_C_SOURCE=200809L -Wpedantic
 
 HEADERS = $(wildcard *.h)
 

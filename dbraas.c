@@ -24,6 +24,11 @@ int main(void) {
 	gpio_init();
 	drop_privileges();
 	
+	gpio_fsel(17, GPIO_INPUT);
+	gpio_pull_down(17);
+	while(1) {
+		printf("%d\n", gpio_level(17));
+	}
 	
 	return 0;
 }

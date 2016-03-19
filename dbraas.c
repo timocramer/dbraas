@@ -5,7 +5,8 @@
 
 #include "rpi-gpio.h"
 
-#define PRINTER_PATH "/dev/usb/lp0"
+// for testing
+#define PRINTER_PATH "/dev/stdout"
 
 // both are "nobody" on my system
 #define UID_AFTER_DROP 99
@@ -21,16 +22,34 @@ static void drop_privileges(void) {
 	}
 }
 
+#define BUTTON_PIN 17
+
 int main(void) {
 	gpio_init();
+	
+	// init printer connection
+	FILE *printer = fopen(PRINTER_PATH, "w");
+	if(printer == NULL) {
+		perror("cannot open printer connection");
+		return 1;
+	}
+	
 	drop_privileges();
 	
-	gpio_fsel(17, GPIO_INPUT);
-	gpio_pull(17, GPIO_PULL_UP);
+	gpio_fsel(BUTTON_PIN, GPIO_INPUT);
+	gpio_pull(BUTTON_PIN, GPIO_PULL_UP);
+	
+	const int default_level = 1; // 1 because of the pull up
 	while(1) {
-		const struct timespec sleeptime = {.tv_sec = 0, .tv_nsec = 1000000};
+		int current_level = gpio_level(BUTTON_PIN);
 		
-		printf("%d\n", gpio_level(17));
+		if(current_level != default_level) {
+			fprintf(printer, "Du bist raus.\r\n");
+			sleep(10); // don't overuse
+		}
+		
+		// wait for 2ms
+		const struct timespec sleeptime = {.tv_sec = 0, .tv_nsec = 2000000};
 		nanosleep(&sleeptime, NULL);
 	}
 	

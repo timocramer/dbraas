@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+void gpio_init(void);
+
 enum {
 	GPIO_INPUT = 0,
 	GPIO_OUTPUT = 1,
@@ -13,10 +15,14 @@ enum {
 	GPIO_ALT4 = 3,
 	GPIO_ALT5 = 2,
 };
-
-void gpio_init(void);
 void gpio_fsel(unsigned int pin, uint32_t function);
-void gpio_pull_up(unsigned int pin);
+
+enum {
+	GPIO_PULL_UP = 2,
+	GPIO_PULL_DOWN = 1,
+	GPIO_OFF = 0,
+};
+void gpio_pull(unsigned int pin, uint32_t pull_value);
 int gpio_level(unsigned int pin);
 
 #endif

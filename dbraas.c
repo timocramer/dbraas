@@ -25,7 +25,7 @@ int main(void) {
 	drop_privileges();
 	
 	gpio_fsel(17, GPIO_INPUT);
-	gpio_pull_up(17);
+	gpio_pull(17, GPIO_PULL_UP);
 	while(1) {
 		printf("%d\n", gpio_level(17));
 	}

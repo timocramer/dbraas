@@ -16,7 +16,7 @@ enum {
 
 void gpio_init(void);
 void gpio_fsel(unsigned int pin, uint32_t function);
-void gpio_pull_down(unsigned int pin);
+void gpio_pull_up(unsigned int pin);
 int gpio_level(unsigned int pin);
 
 #endif

@@ -99,6 +99,38 @@ void gpio_pull_down(unsigned int pin) {
 	*gppudclk = 0;
 }
 
+void gpio_pull_up(unsigned int pin) {
+	if(pin > 53) {
+		return;
+	}
+	
+	// find corresponding GPPUD-registers
+	volatile uint32_t *gppud = gpio_base + 37;
+	volatile uint32_t *gppudclk = gpio_base + 38 + (pin / 32);
+	
+	// find corresponding shift value
+	unsigned int shift = pin;
+	if(shift >= 32) {
+		shift -= 32;
+	}
+	
+	// indicate we want to pull down a pin
+	*gppud = 2;
+	
+	// wait 150 cycles
+	for(volatile int i = 0; i < 150; ++i);
+	
+	// add clock for the pin
+	*gppudclk |= (1 << shift);
+	
+	// wait 150 cycles
+	for(volatile int i = 0; i < 150; ++i);
+	
+	// write to registers to apply changes
+	*gppud = 0;
+	*gppudclk = 0;
+}
+
 int gpio_level(unsigned int pin) {
 	if(pin > 53) {
 		return 0;

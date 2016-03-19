@@ -21,7 +21,7 @@ void gpio_init(void) {
 	/* open /dev/mem */
 	int mem_fd = open("/dev/mem", O_RDWR|O_SYNC);
 	if(mem_fd == -1) {
-		fprintf(stderr, "can't open /dev/mem: %s\n", strerror(errno));
+		perror("can't open /dev/mem");
 		exit(1);
 	}
 	
@@ -38,7 +38,7 @@ void gpio_init(void) {
 	close(mem_fd); //No need to keep mem_fd open after mmap
 	
 	if(gpio_map == MAP_FAILED) {
-		fprintf(stderr, "mmap failed: %s\n", strerror(errno));
+		perror("mmap failed");
 		exit(1);
 	}
 	

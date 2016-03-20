@@ -12,6 +12,10 @@
 #define UID_AFTER_DROP 99
 #define GID_AFTER_DROP 99
 static void drop_privileges(void) {
+	if(chdir("/") == 1) {
+		perror("chdir");
+		exit(1);
+	}
 	if(setgid(GID_AFTER_DROP) == -1) {
 		perror("setgid");
 		exit(1);

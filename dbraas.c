@@ -53,8 +53,7 @@ int main(void) {
 		}
 		
 		// wait for 2ms
-		const struct timespec sleeptime = {.tv_sec = 0, .tv_nsec = 2000000};
-		nanosleep(&sleeptime, NULL);
+		nanosleep(&(const struct timespec){.tv_sec = 0, .tv_nsec = 2000000}, NULL);
 	}
 	
 	return 0;

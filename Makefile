@@ -4,15 +4,21 @@ CFLAGS = -O2 -flto -Wall -Wextra -Wshadow -Wstrict-overflow -std=c11 -D_POSIX_C_
 
 HEADERS = $(wildcard *.h)
 
-.PHONY: all clean
+BINARY = dbraas
+INSTALLDIR = /usr/local/bin/
 
-all: dbraas
+.PHONY: all clean install
 
-dbraas: dbraas.o rpi-gpio.o
+all: $(BINARY)
+
+$(BINARY): dbraas.o rpi-gpio.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) dbraas *.o
+	$(RM) $(BINARY) *.o
+
+install:
+	install -s $(BINARY) $(INSTALLDIR)

@@ -5,9 +5,6 @@
 
 #include "rpi-gpio.h"
 
-// for testing
-#define PRINTER_PATH "/dev/stdout"
-
 // both are "nobody" on my system
 #define UID_AFTER_DROP 99
 #define GID_AFTER_DROP 99
@@ -26,6 +23,31 @@ static void drop_privileges(void) {
 	}
 }
 
+static FILE *number_file;
+
+static unsigned int read_and_increment_number(void) {
+	// if it is not open, don't use the number
+	if(number_file == NULL) {
+		return 0;
+	}
+	
+	unsigned int number;
+	int result = fscanf(number_file, "%u", &number);
+	if(result != 1) {
+		fprintf(stderr, "fscanf failed\n");
+		return 0;
+	}
+	
+	rewind(number_file);
+	fprintf(number_file, "%u", number + 1);
+	rewind(number_file);
+	
+	return number;
+}
+
+// for testing
+#define PRINTER_PATH "/dev/stdout"
+
 #define BUTTON_PIN 17
 
 int main(void) {
@@ -38,6 +60,9 @@ int main(void) {
 		return 1;
 	}
 	
+	// open number file, error handling happens in read_and_increment_number
+	number_file = fopen(NUMBER_FILE, "r+");
+	
 	drop_privileges();
 	
 	gpio_fsel(BUTTON_PIN, GPIO_INPUT);
@@ -49,6 +74,14 @@ int main(void) {
 		
 		if(current_level != default_level) {
 			fprintf(printer, "Du bist raus.\r\n");
+			
+			unsigned int number = read_and_increment_number();
+			if(number != 0) {
+				fprintf(printer, "#%u\r\n", number);
+			}
+			
+			fprintf(printer, "\r\n");
+			
 			sleep(10); // don't overuse
 		}
 		

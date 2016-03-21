@@ -1,6 +1,10 @@
 MAKEFLAGS += -r
 
-CFLAGS = -O2 -flto -Wall -Wextra -Wshadow -Wstrict-overflow -std=c11 -D_POSIX_C_SOURCE=200809L -Wpedantic
+NUMBER_FILE = /var/local/dbr_number.txt
+
+CFLAGS = -O2 -flto -Wall -Wextra -Wshadow -Wstrict-overflow \
+	-std=c11 -Wpedantic -D_POSIX_C_SOURCE=200809L \
+	-DNUMBER_FILE='"'$(NUMBER_FILE)'"'
 
 HEADERS = $(wildcard *.h)
 
@@ -22,3 +26,5 @@ clean:
 
 install:
 	install -s $(BINARY) $(INSTALLDIR)
+	echo "201" > $(NUMBER_FILE)
+	chmod 600 $(NUMBER_FILE)

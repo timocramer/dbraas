@@ -43,7 +43,7 @@ int main(void) {
 	gpio_fsel(BUTTON_PIN, GPIO_INPUT);
 	gpio_pull(BUTTON_PIN, GPIO_PULL_UP);
 	
-	const int default_level = 1; // 1 because of the pull up
+	const int default_level = 0; // we use a pull up and an opening switch
 	while(1) {
 		int current_level = gpio_level(BUTTON_PIN);
 		

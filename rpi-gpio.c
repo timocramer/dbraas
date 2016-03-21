@@ -82,7 +82,7 @@ void gpio_pull(unsigned int pin, uint32_t pull_value) {
 		shift -= 32;
 	}
 	
-	// indicate we want to pull down a pin
+	// indicate we want to pull down/pull up/disable a pin
 	*gppud = pull_value;
 	
 	// wait 150 cycles

@@ -10,9 +10,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define BLOCK_SIZE (4*1024)
-#define BCM2708_PERI_BASE        0x20000000
-#define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
+#define BCM2708_PERI_BASE 0x20000000
+#define GPIO_BASE (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
 
 static volatile uint32_t *gpio_base;
 
@@ -27,12 +26,12 @@ void gpio_init(void) {
 	
 	/* mmap GPIO */
 	void *gpio_map = mmap(
-		NULL,             //Any address in our space will do
-		BLOCK_SIZE,       //Map length
+		NULL, //Any address in our space will do
+		4096, //Map length
 		PROT_READ|PROT_WRITE, // Enable reading & writting to mapped memory
-		MAP_SHARED,       //Shared with other processes
-		mem_fd,           //File to map
-		GPIO_BASE         //Offset to GPIO peripheral
+		MAP_SHARED, //Shared with other processes
+		mem_fd, //File to map
+		GPIO_BASE //Offset to GPIO peripheral
 	);
 	
 	close(mem_fd); //No need to keep mem_fd open after mmap

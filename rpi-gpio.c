@@ -45,7 +45,7 @@ void gpio_init(void) {
 	gpio_base = (volatile uint32_t *)gpio_map;
 }
 
-void gpio_fsel(unsigned int pin, uint32_t function) {
+void gpio_fsel(unsigned int pin, enum gpio_function function) {
 	if(pin > 53) {
 		return;
 	}
@@ -54,19 +54,16 @@ void gpio_fsel(unsigned int pin, uint32_t function) {
 	volatile uint32_t *reg_addr = gpio_base + (pin / 10);
 	const unsigned int shift = (pin % 10) * 3;
 	
-	// function has to be between 0 and 7
-	function &= 0x7;
-	
 	// build new register value
 	uint32_t reg_tmp = *reg_addr;
 	reg_tmp &= ~(0x7 << shift);
-	reg_tmp |= function << shift;
+	reg_tmp |= (uint32_t)function << shift;
 	
 	// write it back
 	*reg_addr = reg_tmp;
 }
 
-void gpio_pull(unsigned int pin, uint32_t pull_value) {
+void gpio_pull(unsigned int pin, enum gpio_pull_conf pull_conf) {
 	if(pin > 53) {
 		return;
 	}
@@ -82,7 +79,7 @@ void gpio_pull(unsigned int pin, uint32_t pull_value) {
 	}
 	
 	// indicate we want to pull down/pull up/disable a pin
-	*gppud = pull_value;
+	*gppud = pull_conf;
 	
 	// wait 150 cycles
 	for(volatile int i = 0; i < 150; ++i);

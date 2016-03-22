@@ -46,7 +46,7 @@ static unsigned int read_and_increment_number(void) {
 }
 
 // for testing
-#define PRINTER_PATH "/dev/stdout"
+#define PRINTER_PATH "/dev/usb/lp0"
 
 #define BUTTON_PIN 17
 

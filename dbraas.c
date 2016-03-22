@@ -73,14 +73,16 @@ int main(void) {
 		int current_level = gpio_level(BUTTON_PIN);
 		
 		if(current_level != default_level) {
-			fprintf(printer, "\r\nDu bist raus.\r\n");
-			
+			fprintf(printer, "\r\n\r\n"
+				"      Du bist raus.\r\n");
+
 			unsigned int number = read_and_increment_number();
 			if(number != 0) {
-				fprintf(printer, "#%u\r\n", number);
+				fprintf(printer, "          #%u\r\n", number);
 			}
 			
-			fprintf(printer, "\r\n");
+			fprintf(printer, "\r\n\r\n\r\n");
+			fflush(printer);
 			
 			sleep(10); // don't overuse
 		}

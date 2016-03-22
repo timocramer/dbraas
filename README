@@ -1,2 +1,4 @@
 This program is used to print "Du bist raus." on a piece of paper when a button
 is pressed. I use a Raspberry Pi for this.
+
+This software is released under GPLv3.

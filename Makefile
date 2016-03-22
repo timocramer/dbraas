@@ -11,7 +11,7 @@ HEADERS = $(wildcard *.h)
 BINARY = dbraas
 INSTALLDIR = /usr/local/bin/
 
-.PHONY: all clean install
+.PHONY: all clean install install-number-file
 
 all: $(BINARY)
 
@@ -26,5 +26,7 @@ clean:
 
 install:
 	install -s $(BINARY) $(INSTALLDIR)
+
+install-number-file:
 	echo "201" > $(NUMBER_FILE)
 	chmod 600 $(NUMBER_FILE)

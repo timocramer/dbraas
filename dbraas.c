@@ -38,6 +38,10 @@ static unsigned int read_and_increment_number(void) {
 		return 0;
 	}
 	
+	// the first 200 are already gone
+	if(number <= 200)
+		return 0;
+	
 	rewind(number_file);
 	fprintf(number_file, "%u", number + 1);
 	rewind(number_file);
@@ -75,7 +79,7 @@ int main(void) {
 		if(current_level != default_level) {
 			fprintf(printer, "\r\n\r\n"
 				"      Du bist raus.\r\n");
-
+			
 			unsigned int number = read_and_increment_number();
 			if(number != 0) {
 				fprintf(printer, "          #%u\r\n", number);

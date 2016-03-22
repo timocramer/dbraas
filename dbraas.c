@@ -73,7 +73,7 @@ int main(void) {
 		int current_level = gpio_level(BUTTON_PIN);
 		
 		if(current_level != default_level) {
-			fprintf(printer, "Du bist raus.\r\n");
+			fprintf(printer, "\r\nDu bist raus.\r\n");
 			
 			unsigned int number = read_and_increment_number();
 			if(number != 0) {

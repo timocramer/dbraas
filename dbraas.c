@@ -31,6 +31,9 @@ static unsigned int read_and_increment_number(void) {
 		return 0;
 	}
 	
+	// get to the start of the file and try to read the number
+	rewind(number_file);
+	
 	unsigned int number;
 	int result = fscanf(number_file, "%u", &number);
 	if(result != 1) {
@@ -43,9 +46,9 @@ static unsigned int read_and_increment_number(void) {
 		return 0;
 	}
 	
+	// write back the new number
 	rewind(number_file);
 	fprintf(number_file, "%u", number + 1);
-	rewind(number_file);
 	
 	return number;
 }

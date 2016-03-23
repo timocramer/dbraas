@@ -39,8 +39,9 @@ static unsigned int read_and_increment_number(void) {
 	}
 	
 	// the first 200 are already gone
-	if(number <= 200)
+	if(number <= 200) {
 		return 0;
+	}
 	
 	rewind(number_file);
 	fprintf(number_file, "%u", number + 1);

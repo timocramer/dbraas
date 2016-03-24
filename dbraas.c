@@ -55,7 +55,6 @@ static unsigned int read_and_increment_number(void) {
 	return number;
 }
 
-// for testing
 #define PRINTER_PATH "/dev/usb/lp0"
 
 #define BUTTON_PIN 17
@@ -97,8 +96,8 @@ int main(void) {
 			sleep(get_sleep_time()); // don't overuse
 		}
 		
-		// wait for 2ms
-		nanosleep(&(const struct timespec){.tv_sec = 0, .tv_nsec = 2000000}, NULL);
+		// wait for 5ms
+		nanosleep(&(const struct timespec){.tv_sec = 0, .tv_nsec = 5000000}, NULL);
 	}
 	
 	return 0;

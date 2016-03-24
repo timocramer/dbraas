@@ -16,12 +16,12 @@ unsigned int get_sleep_time(void) {
 		sleep_time = sleep_time * 3 / 2;
 	}
 	
-	// maximal waiting time is 5 minutes
+	// maximum waiting time is 5 minutes
 	if(sleep_time > MAXIMUM_SLEEP_TIME) {
 		sleep_time = MAXIMUM_SLEEP_TIME;
 	}
 	
-	// reset happens after the double sleep time
+	// reset happens after the double of sleep_time
 	reset = now + (sleep_time * 2);
 	
 	return sleep_time;

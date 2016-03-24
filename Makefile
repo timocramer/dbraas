@@ -15,7 +15,7 @@ INSTALLDIR = /usr/local/bin/
 
 all: $(BINARY)
 
-$(BINARY): dbraas.o rpi-gpio.o
+$(BINARY): dbraas.o rpi-gpio.o backoff.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(HEADERS)

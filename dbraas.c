@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "rpi-gpio.h"
+#include "backoff.h"
 
 // both are "nobody" on my system
 #define UID_AFTER_DROP 99
@@ -92,7 +93,7 @@ int main(void) {
 			fprintf(printer, "\r\n\r\n\r\n");
 			fflush(printer);
 			
-			sleep(10); // don't overuse
+			sleep(get_sleep_time()); // don't overuse
 		}
 		
 		// wait for 2ms

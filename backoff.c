@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define START_SLEEP_TIME 7
+#define START_SLEEP_TIME 10
 #define MAXIMUM_SLEEP_TIME (5 * 60)
 
 unsigned int get_sleep_time(void) {

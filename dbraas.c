@@ -50,6 +50,7 @@ static unsigned int read_and_increment_number(void) {
 	// write back the new number
 	rewind(number_file);
 	fprintf(number_file, "%u", number + 1);
+	fflush(number_file);
 	
 	return number;
 }

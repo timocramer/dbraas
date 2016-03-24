@@ -21,9 +21,8 @@ unsigned int get_sleep_time(void) {
 		sleep_time = MAXIMUM_SLEEP_TIME;
 	}
 	
+	// reset happens after the double sleep time
 	reset = now + (sleep_time * 2);
-	
-	printf("sleep_time: %u\n", sleep_time);
 	
 	return sleep_time;
 }

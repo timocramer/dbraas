@@ -55,6 +55,21 @@ static unsigned int read_and_increment_number(void) {
 	return number;
 }
 
+static FILE *printer;
+
+static void print_du_bist_raus(void) {
+	fprintf(printer, "\r\n\r\n"
+			"      Du bist raus.\r\n");
+	
+	unsigned int number = read_and_increment_number();
+	if(number != 0) {
+		fprintf(printer, "          #%u\r\n", number);
+	}
+	
+	fprintf(printer, "\r\n\r\n\r\n");
+	fflush(printer);
+}
+
 #define PRINTER_PATH "/dev/usb/lp0"
 
 #define BUTTON_PIN 17
@@ -63,7 +78,7 @@ int main(void) {
 	gpio_init();
 	
 	// init printer connection
-	FILE *printer = fopen(PRINTER_PATH, "w");
+	printer = fopen(PRINTER_PATH, "w");
 	if(printer == NULL) {
 		perror("cannot open printer connection");
 		return 1;
@@ -82,16 +97,7 @@ int main(void) {
 		int current_level = gpio_level(BUTTON_PIN);
 		
 		if(current_level != default_level) {
-			fprintf(printer, "\r\n\r\n"
-				"      Du bist raus.\r\n");
-			
-			unsigned int number = read_and_increment_number();
-			if(number != 0) {
-				fprintf(printer, "          #%u\r\n", number);
-			}
-			
-			fprintf(printer, "\r\n\r\n\r\n");
-			fflush(printer);
+			print_du_bist_raus();
 			
 			sleep(get_sleep_time()); // don't overuse
 		}

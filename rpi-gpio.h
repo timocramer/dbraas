@@ -1,5 +1,5 @@
-#ifndef RPI_GPIO
-#define RPI_GPIO
+#ifndef DBRAAS_RPI_GPIO
+#define DBRAAS_RPI_GPIO
 
 #include <stdint.h>
 

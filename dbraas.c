@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <syslog.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -71,6 +72,11 @@ static void print_du_bist_raus(void) {
 
 #define BUTTON_PIN 17
 
+// for syslog
+#ifndef LOG_PERROR
+#define LOG_PERROR 0
+#endif
+
 int main(void) {
 	gpio_init();
 	
@@ -86,6 +92,8 @@ int main(void) {
 	
 	drop_privileges();
 	
+	openlog("dbraas", LOG_PERROR, LOG_DAEMON);
+	
 	gpio_fsel(BUTTON_PIN, GPIO_INPUT);
 	gpio_pull(BUTTON_PIN, GPIO_PULL_UP);
 	
@@ -94,6 +102,7 @@ int main(void) {
 		int current_level = gpio_level(BUTTON_PIN);
 		
 		if(current_level != default_level) {
+			syslog(LOG_INFO, "%ld Button pressed", (long) time(NULL));
 			print_du_bist_raus();
 			
 			sleep(get_sleep_time()); // don't overuse

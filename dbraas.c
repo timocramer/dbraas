@@ -6,19 +6,16 @@
 #include "rpi-gpio.h"
 #include "backoff.h"
 
-// both are "nobody" on my system
-#define UID_AFTER_DROP 99
-#define GID_AFTER_DROP 99
 static void drop_privileges(void) {
 	if(chdir("/") == -1) {
 		perror("chdir");
 		exit(1);
 	}
-	if(setgid(GID_AFTER_DROP) == -1) {
+	if(setgid(getgid()) == -1) {
 		perror("setgid");
 		exit(1);
 	}
-	if(setuid(UID_AFTER_DROP) == -1) {
+	if(setuid(getuid()) == -1) {
 		perror("setuid");
 		exit(1);
 	}

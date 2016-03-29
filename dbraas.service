@@ -4,6 +4,7 @@ Description="Du bist raus." as a service
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/dbraas
+User=nobody
 
 [Install]
 WantedBy=multi-user.target

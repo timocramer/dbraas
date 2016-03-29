@@ -24,8 +24,9 @@ $(BINARY): dbraas.o rpi-gpio.o backoff.o
 clean:
 	$(RM) $(BINARY) *.o
 
+# install with suid-bit
 install:
-	install -s $(BINARY) $(INSTALLDIR)
+	install -s -m 4755 $(BINARY) $(INSTALLDIR)
 
 install-number-file:
 	echo "201" > $(NUMBER_FILE)

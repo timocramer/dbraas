@@ -76,20 +76,38 @@ int main(void) {
 	
 	gpio_fsel(BUTTON_PIN, GPIO_INPUT);
 	gpio_pull(BUTTON_PIN, GPIO_PULL_UP);
+
+    // Set output lines for easier templating
+    const char line1[] = "\xd5\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xb8";
+    const char line2[] = "\xb3                      \xb3";
+    const char line3[] = "\xb3     Du bist raus.    \xb3";
+    const char line4pre[] = "\xb3         #";
+    const char line4post[] = "         \xb3";
+    const char line5[] = "\xb3                      \xb3";
+    const char line6[] = "\xd4\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xbe";
 	
 	const int default_level = 0; // we use a pull up and an opening switch
 	while(1) {
 		int current_level = gpio_level(BUTTON_PIN);
 		
 		if(current_level != default_level) {
-			fprintf(printer, "\r\n\r\n"
-				"      Du bist raus.\r\n");
-			
+            fprintf(printer, line1);
+            fprintf(printer, "\r\n");
+            fprintf(printer, line2);
+            fprintf(printer, "\r\n");
+            fprintf(printer, line3);
+            fprintf(printer, "\r\n");
+            fprintf(printer, line4pre);
 			unsigned int number = read_and_increment_number();
 			if(number != 0) {
-				fprintf(printer, "          #%u\r\n", number);
+				fprintf(printer, "%u", number);
 			}
-			
+            fprintf(printer, line4post);
+            fprintf(printer, "\r\n");
+            fprintf(printer, line5);
+            fprintf(printer, "\r\n");
+            fprintf(printer, line6);
+            fprintf(printer, "\r\n");
 			fprintf(printer, "\r\n\r\n\r\n");
 			fflush(printer);
 			
